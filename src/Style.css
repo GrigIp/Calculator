@@ -1,0 +1,24 @@
+.Number {
+  height: 50px;
+  width: 60px;
+  border-style: solid;
+  border-color: black;
+  border-width: 0.1px;
+  font-size: 20px;
+}
+
+.Display {
+  width: 240px;
+  height: 100px;
+  background-color: #1c1c1c;
+  color: white;
+  font-size: 4em;
+  text-align: right;
+  line-height: 130px;
+}
+
+.bla {
+  width: 240px;
+  height: 250px;
+  background-color: red;
+}

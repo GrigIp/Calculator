@@ -2,27 +2,24 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Number from "./Number.js";
+import Display from "./Display.js";
+import constant from "./constants";
+import "./Style.css";
 
 const App = () => {
-  return <Number />;
-  /*  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );*/
+  let index = 0;
+  let arr = constant.arr;
+  return (
+    <>
+      <Display />
+      <div className="bla">
+        {arr.map(value => (
+          <Number key={value} index={index++} value={value} />
+        ))}
+      </div>
+      <button>Button test</button>
+    </>
+  );
 };
 
 export default App;
