@@ -3,9 +3,9 @@ import "./Style.css";
 import constant from "./constants";
 
 let colors = constant.colors;
-const Number = props => (
+const Button = props => (
   <button
-    className="Number"
+    className="Button"
     style={{
       width: props.value === "0" ? "120px" : "60px",
       backgroundColor: colors[props.index]
@@ -15,4 +15,4 @@ const Number = props => (
   </button>
 );
 
-export default Number;
+export default Button;
