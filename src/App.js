@@ -9,6 +9,7 @@ import "./Style.css";
 const App = () => {
   let index = 0;
   let arr = constant.arr;
+  console.log("");
   return (
     <>
       <Display />
