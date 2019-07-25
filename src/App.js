@@ -11,26 +11,17 @@ class App extends React.Component {
     super(props);
     this.state = {
       result: '0',
-      default: true
+      default: true,
+      point: false
     };
     //this.updateResult = this.updateResult.bind(this);
   }
   valuesArray = VALUES_ARRAY;
-  updateResult = (value, defaultValue) => {
-    if (defaultValue === true) {
-      this.setState({ result: '0', default: defaultValue });
-    }
-    else
-      if (this.state.default !== true)
-        this.setState({
-          result: this.state.result.concat(value),
-          default: defaultValue
-        });
-        else {
-          this.setState({ result: value, default: defaultValue });
-        }
-  };
+  updateState = (newState) =>{
+    this.setState({...newState});
+  }
   isDisplayable(index) {
+    //console.log(index);
     if (NUMBERS.indexOf(index) === -1) return false;
     return true;
   }
@@ -47,7 +38,8 @@ class App extends React.Component {
               value={
                 value === 'AC' && this.state.default === false ? 'C' : value
               }
-              updateResult={this.updateResult}
+              updateState={this.updateState}
+              currentState = {this.state}
             />
           ))}
         </div>

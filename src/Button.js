@@ -1,23 +1,12 @@
 import React from 'react';
 import './Style.css';
 import {COLORS} from './constants';
+import {updateResult} from './PressButtonLogic'
 
 let colors = COLORS;
 class Button extends React.Component {
-  specialKeys = () =>{
-    switch(this.props.value){
-      case 'C':
-        this.props.updateResult('0',true);
-        break;
-      default:
-        console.log('this is a special key', this.props.value);
-    }
-  };
-
-  updateResult = () => {
-    if (this.props.isDisplayable)
-      this.props.updateResult(this.props.value, false);
-    else this.specialKeys();
+  updateState = () =>{
+    this.props.updateState(updateResult(this.props.value,this.props.currentState,this.props.isDisplayable));
   };
   render() {
     return (
@@ -27,7 +16,7 @@ class Button extends React.Component {
           backgroundColor: colors[this.props.index],
           width: this.props.value === '0' ? '120px' : '60px'
         }}
-        onClick={this.updateResult}
+        onClick={this.updateState}
       >
         {this.props.value}
       </button>
