@@ -1,4 +1,4 @@
-.Button {
+.button {
   height: 50px;
   width: 60px;
   border-style: solid;
@@ -6,18 +6,21 @@
   border-width: 0.1px;
   font-size: 20px;
 }
+.button:focus {
+  outline: none;
+}
 
-.Display {
+.display {
   width: 240px;
   height: 100px;
   background-color: #1c1c1c;
   color: white;
-  font-size: 4em;
+  font-size: 3em;
   text-align: right;
-  line-height: 130px;
+  line-height: 120px;
 }
 
-.ButtonsArea {
+.buttons-area {
   width: 240px;
   height: 250px;
   background-color: red;
