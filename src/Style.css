@@ -1,27 +1,27 @@
 .button {
-  height: 50px;
-  width: 60px;
-  border-style: solid;
-  border-color: black;
-  border-width: 0.1px;
-  font-size: 20px;
+    height: 50px;
+    width: 60px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.1px;
+    font-size: 20px;
 }
 .button:focus {
-  outline: none;
+    outline: none;
 }
 
 .display {
-  width: 240px;
-  height: 100px;
-  background-color: #1c1c1c;
-  color: white;
-  font-size: 3em;
-  text-align: right;
-  line-height: 120px;
+    width: 240px;
+    height: 100px;
+    background-color: #1c1c1c;
+    color: white;
+    font-size: 100px;
+    text-align: right;
+    line-height: 120px;
 }
 
 .buttons-area {
-  width: 240px;
-  height: 250px;
-  background-color: red;
+    width: 240px;
+    height: 250px;
+    background-color: red;
 }
