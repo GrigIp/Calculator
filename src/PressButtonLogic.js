@@ -1,5 +1,7 @@
-const canConcat = (value, defaultState) => {
-    return defaultState !== true || (defaultState === true && value === '.');
+const canConcat = (value, state) => {
+    if (state.result[state.result.length - 1] === '0' && value !== '.')
+        return false;
+    return state.default !== true || (state.state === true && value === '.');
 };
 
 const handleArrays = (value, state) => {
@@ -104,7 +106,7 @@ const createNewDisplayingState = (newResult, newDefaultValue, state) => {
             default: newDefaultValue,
             point: false,
         };
-    } else if (canConcat(newResult, state.default) && state.result[0] !== '0') {
+    } else if (canConcat(newResult, state)) {
         saveResultArray[lastElem] = saveResultArray[lastElem].concat(newResult);
         return {
             result: saveResultArray,
