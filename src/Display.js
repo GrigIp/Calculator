@@ -1,11 +1,6 @@
-import React from 'react';
-import './Style.css';
-import { Textfit } from 'react-textfit';
+import React from "react";
+import "./Style.css";
 
-const Display = props => (
-    <Textfit mode="single" className="display">
-        {props.value[props.length - 1]}
-    </Textfit>
-);
+const Display = props => <div className="Display">0</div>;
 
 export default Display;
