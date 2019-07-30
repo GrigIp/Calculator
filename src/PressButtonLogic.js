@@ -113,7 +113,7 @@ const createNewDisplayingState = (newResult, newDefaultValue, state) => {
         };
     } else {
         saveResultArray[lastElem] = newResult;
-
+        state.point = false;
         return {
             result: saveResultArray,
             default: newDefaultValue,
