@@ -17,9 +17,9 @@ export const VALUES_ARRAY = [
     '+',
     '0',
     '.',
-    '='
-  ];
-export const  COLORS = [
+    '=',
+];
+export const COLORS = [
     '#505050',
     '#505050',
     '#505050',
@@ -38,6 +38,6 @@ export const  COLORS = [
     '#FF9500',
     '#D4D4D2',
     '#D4D4D2',
-    '#FF9500'
-  ];
-export const  NUMBERS = [4, 5, 6, 8, 9, 10, 12, 13, 14, 16, 17]
+    '#FF9500',
+];
+export const NUMBERS = [4, 5, 6, 8, 9, 10, 12, 13, 14, 16, 17];
