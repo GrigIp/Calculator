@@ -3,7 +3,12 @@ import './Style.css';
 import { Textfit } from 'react-textfit';
 
 const Display = props => (
-    <Textfit mode="single" className="display">
+    <Textfit
+        mode="single"
+        className="display"
+        forceSingleModeWidth={true}
+        max="80"
+    >
         {props.value[props.length - 1]}
     </Textfit>
 );

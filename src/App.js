@@ -11,7 +11,10 @@ class App extends React.Component {
         super(props);
         this.state = {
             result: ['0'],
-            operators: [],
+            operators: {
+                array: [],
+                redundant: 0,
+            },
             default: true,
             point: false,
         };
@@ -27,6 +30,7 @@ class App extends React.Component {
         return true;
     }
     render() {
+        console.log(this.state.result);
         console.log(this.state.operators);
         return (
             <>
@@ -41,7 +45,9 @@ class App extends React.Component {
                             isDisplayable={this.isDisplayable(index)}
                             index={index++}
                             value={
-                                value === 'AC' && this.state.default === false
+                                value === 'AC' &&
+                                (this.state.default === false ||
+                                    this.state.operators.array.length > 0)
                                     ? 'C'
                                     : value
                             }
