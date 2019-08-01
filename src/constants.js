@@ -1,43 +1,66 @@
-export const VALUES_ARRAY = [
-    'AC',
-    '+/-',
-    '%',
-    '÷',
-    '7',
-    '8',
-    '9',
-    'x',
-    '4',
-    '5',
-    '6',
-    '-',
-    '1',
-    '2',
-    '3',
-    '+',
-    '0',
-    '.',
-    '=',
+import { ButtonProperties } from './buttonProperties';
+
+export const BUTTON_PROPERTIES_ARRAY = [
+    new ButtonProperties({
+        value: 'AC',
+        colors: '#505050',
+        isDisplayable: false,
+    }),
+
+    new ButtonProperties({
+        value: '+/-',
+        colors: '#505050',
+        isDisplayable: false,
+    }),
+
+    new ButtonProperties({
+        value: '%',
+        colors: '#505050',
+        isDisplayable: false,
+    }),
+
+    new ButtonProperties({
+        value: '÷',
+        colors: '#FF9500',
+        isDisplayable: false,
+    }),
+
+    new ButtonProperties({ value: '7' }),
+    new ButtonProperties({ value: '8' }),
+    new ButtonProperties({ value: '9' }),
+
+    new ButtonProperties({
+        value: 'x',
+        colors: '#FF9500',
+        isDisplayable: false,
+    }),
+
+    new ButtonProperties({ value: '4' }),
+    new ButtonProperties({ value: '5' }),
+    new ButtonProperties({ value: '6' }),
+
+    new ButtonProperties({
+        value: '-',
+        colors: '#FF9500',
+        isDisplayable: false,
+    }),
+
+    new ButtonProperties({ value: '1' }),
+    new ButtonProperties({ value: '2' }),
+    new ButtonProperties({ value: '3' }),
+
+    new ButtonProperties({
+        value: '+',
+        colors: '#FF9500',
+        isDisplayable: false,
+    }),
+
+    new ButtonProperties({ value: '0', width: '120px' }),
+    new ButtonProperties({ value: '.' }),
+
+    new ButtonProperties({
+        value: '=',
+        colors: '#FF9500',
+        isDisplayable: false,
+    }),
 ];
-export const COLORS = [
-    '#505050',
-    '#505050',
-    '#505050',
-    '#FF9500',
-    '#D4D4D2',
-    '#D4D4D2',
-    '#D4D4D2',
-    '#FF9500',
-    '#D4D4D2',
-    '#D4D4D2',
-    '#D4D4D2',
-    '#FF9500',
-    '#D4D4D2',
-    '#D4D4D2',
-    '#D4D4D2',
-    '#FF9500',
-    '#D4D4D2',
-    '#D4D4D2',
-    '#FF9500',
-];
-export const NUMBERS = [4, 5, 6, 8, 9, 10, 12, 13, 14, 16, 17];

@@ -1,6 +1,8 @@
 const canConcat = (value, state) => {
-    if (state.result[state.result.length - 1] === '0' && value !== '.')
+    if (state.result[state.result.length - 1] === '0' && value !== '.') {
         return false;
+    }
+
     return state.default !== true || (state.state === true && value === '.');
 };
 
@@ -10,22 +12,27 @@ const handleArrays = (value, state) => {
     state.result = saveResultArray;
     state.operators.array.push(value);
     state.default = true;
+
     return state;
 };
+
 const calculatePartialResult = (firstOperand, secondOperand, operator) => {
-    //console.log('secondOperand', secondOperand, operator);
     switch (operator) {
         case '+':
             firstOperand += secondOperand;
+
             return firstOperand;
         case '-':
             firstOperand -= secondOperand;
+
             return firstOperand;
         case 'x':
             firstOperand *= secondOperand;
+
             return firstOperand;
         case '÷':
             firstOperand /= secondOperand;
+
             return firstOperand;
         default:
             return firstOperand;
@@ -33,13 +40,13 @@ const calculatePartialResult = (firstOperand, secondOperand, operator) => {
 };
 
 const solveOrderOfPrecedence = state => {
-    //let newState = state;
     if (
         state.operators.array.length === state.result.length &&
         state.operators.array.length > 1
     ) {
         state.operators.array.splice(0, 1);
     }
+
     for (let i = 0; i < state.operators.array.length - 1; i++) {
         let val = state.operators.array[i];
         if (val === 'x' || val === '÷') {
@@ -54,19 +61,23 @@ const solveOrderOfPrecedence = state => {
             state.result.splice(i, 1);
         }
     }
+
     return state;
 };
 
 const calculateResult = state => {
     state = solveOrderOfPrecedence(state);
+
     const lastElemResultArray = state.result.length - 1;
     let lastElemOperatorsArray = state.operators.array.length - 1;
     let finalResult = Number(state.result[0]);
+
     if (lastElemResultArray + 1 > 1) {
         if (state.operators.array.length === lastElemResultArray + 1) {
             state.operators.array.splice(0, 1);
             lastElemOperatorsArray = state.operators.array.length - 1;
         }
+
         for (let i = 0; i <= lastElemOperatorsArray; i++) {
             finalResult = calculatePartialResult(
                 finalResult,
@@ -74,6 +85,7 @@ const calculateResult = state => {
                 state.operators.array[i]
             );
         }
+
         state.operators.array = [state.operators.array[lastElemOperatorsArray]];
         state.operators.redundant = Number(state.result[lastElemResultArray]);
     } else {
@@ -84,8 +96,10 @@ const calculateResult = state => {
             state.operators.array[lastElemOperatorsArray]
         );
     }
+
     state.default = true;
     state.result = [finalResult.toString()];
+
     return state;
 };
 
@@ -93,9 +107,13 @@ const createNewDisplayingState = (newResult, newDefaultValue, state) => {
     if (newResult === '.' && state.point) {
         return state;
     }
-    if (newResult === '.') state.point = true;
+    if (newResult === '.') {
+        state.point = true;
+    }
+
     const saveResultArray = state.result;
     const lastElem = saveResultArray.length - 1;
+
     if (newDefaultValue === true) {
         return {
             result: ['0'],
@@ -108,6 +126,7 @@ const createNewDisplayingState = (newResult, newDefaultValue, state) => {
         };
     } else if (canConcat(newResult, state)) {
         saveResultArray[lastElem] = saveResultArray[lastElem].concat(newResult);
+
         return {
             result: saveResultArray,
             default: newDefaultValue,
@@ -116,6 +135,7 @@ const createNewDisplayingState = (newResult, newDefaultValue, state) => {
     } else {
         saveResultArray[lastElem] = newResult;
         state.point = false;
+
         return {
             result: saveResultArray,
             default: newDefaultValue,
@@ -127,6 +147,7 @@ const createNewDisplayingState = (newResult, newDefaultValue, state) => {
 const constMultiplyer = (multiplyer, state) => {
     let lastElem = state.result.length - 1;
     let stateResult = Number(state.result[lastElem]);
+
     stateResult *= multiplyer;
     state.result[lastElem] = stateResult.toString();
 
@@ -136,6 +157,7 @@ const constMultiplyer = (multiplyer, state) => {
         point: state.point,
     };
 };
+
 const specialKeys = (value, state) => {
     switch (value) {
         case 'C':
@@ -154,7 +176,9 @@ const specialKeys = (value, state) => {
 };
 
 export const updateResult = (value, state, isDisplayable) => {
-    if (isDisplayable) return createNewDisplayingState(value, false, state);
+    if (isDisplayable) {
+        return createNewDisplayingState(value, false, state);
+    }
 
     return specialKeys(value, state);
 };

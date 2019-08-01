@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Button from './Button';
-import Display from './Display';
-import { VALUES_ARRAY, NUMBERS } from './constants';
-import './Style.css';
+import Button from './button';
+import Display from './display';
+import { BUTTON_PROPERTIES_ARRAY } from './constants';
+import './style.css';
+import { updateResult } from './pressButtonLogic';
 
 class App extends React.Component {
     constructor(props) {
@@ -18,41 +19,33 @@ class App extends React.Component {
             default: true,
             point: false,
         };
-        //this.updateResult = this.updateResult.bind(this);
+        this.updateState = this.updateState.bind(this);
     }
-    valuesArray = VALUES_ARRAY;
-    updateState = newState => {
-        this.setState({ ...newState });
-    };
-    isDisplayable(index) {
-        //console.log(index);
-        if (NUMBERS.indexOf(index) === -1) return false;
-        return true;
+
+    updateState(value, isDisplayable) {
+        this.setState({ ...updateResult(value, this.state, isDisplayable) });
     }
+
     render() {
-        console.log(this.state.result);
-        console.log(this.state.operators);
+        if (
+            this.state.default === false ||
+            this.state.operators.array.length > 0
+        ) {
+            BUTTON_PROPERTIES_ARRAY[0].setValue('C');
+        } else {
+            BUTTON_PROPERTIES_ARRAY[0].setValue('AC');
+        }
         return (
             <>
                 <Display
-                    value={this.state.result}
-                    length={this.state.result.length}
+                    value={this.state.result[this.state.result.length - 1]}
                 />
                 <div className="buttons-area">
-                    {this.valuesArray.map((value, index) => (
+                    {BUTTON_PROPERTIES_ARRAY.map((properties, index) => (
                         <Button
-                            key={value}
-                            isDisplayable={this.isDisplayable(index)}
-                            index={index++}
-                            value={
-                                value === 'AC' &&
-                                (this.state.default === false ||
-                                    this.state.operators.array.length > 0)
-                                    ? 'C'
-                                    : value
-                            }
+                            key={properties.value}
+                            properties={properties}
                             updateState={this.updateState}
-                            currentState={this.state}
                         />
                     ))}
                 </div>

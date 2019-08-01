@@ -1,5 +1,5 @@
 import React from 'react';
-import './Style.css';
+import './style.css';
 import { Textfit } from 'react-textfit';
 
 const Display = props => (
@@ -7,9 +7,9 @@ const Display = props => (
         mode="single"
         className="display"
         forceSingleModeWidth={true}
-        max="80"
+        max={80}
     >
-        {props.value[props.length - 1]}
+        {props.value}
     </Textfit>
 );
 

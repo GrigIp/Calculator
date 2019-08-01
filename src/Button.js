@@ -1,30 +1,23 @@
 import React from 'react';
-import './Style.css';
-import { COLORS } from './constants';
-import { updateResult } from './PressButtonLogic';
+import './style.css';
 
-let colors = COLORS;
 class Button extends React.Component {
-    updateState = () => {
-        this.props.updateState(
-            updateResult(
-                this.props.value,
-                this.props.currentState,
-                this.props.isDisplayable
-            )
-        );
-    };
     render() {
         return (
             <button
                 className="button"
                 style={{
-                    backgroundColor: colors[this.props.index],
-                    width: this.props.value === '0' ? '120px' : '60px',
+                    backgroundColor: this.props.properties.colors,
+                    width: this.props.properties.width,
                 }}
-                onClick={this.updateState}
+                onClick={e =>
+                    this.props.updateState(
+                        this.props.properties.value,
+                        this.props.properties.isDisplayable
+                    )
+                }
             >
-                {this.props.value}
+                {this.props.properties.value}
             </button>
         );
     }
