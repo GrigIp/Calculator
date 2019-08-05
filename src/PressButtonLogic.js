@@ -174,9 +174,24 @@ const specialKeys = (value, state) => {
             return handleArrays(value, state);
     }
 };
+const isDisplayable = value => {
+    return (
+        value === '1' ||
+        value === '2' ||
+        value === '3' ||
+        value === '4' ||
+        value === '5' ||
+        value === '6' ||
+        value === '7' ||
+        value === '8' ||
+        value === '9' ||
+        value === '0' ||
+        value === '.'
+    );
+};
 
-export const updateResult = (value, state, isDisplayable) => {
-    if (isDisplayable) {
+export const updateResult = (value, state) => {
+    if (isDisplayable(value)) {
         return createNewDisplayingState(value, false, state);
     }
 

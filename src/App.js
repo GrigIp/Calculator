@@ -4,7 +4,6 @@ import './App.css';
 import Button from './button';
 import Display from './display';
 import { BUTTON_PROPERTIES_ARRAY } from './constants';
-import './style.css';
 import { updateResult } from './pressButtonLogic';
 
 class App extends React.Component {
@@ -22,8 +21,8 @@ class App extends React.Component {
         this.updateState = this.updateState.bind(this);
     }
 
-    updateState(value, isDisplayable) {
-        this.setState({ ...updateResult(value, this.state, isDisplayable) });
+    updateState(value) {
+        this.setState({ ...updateResult(value, this.state) });
     }
 
     render() {
@@ -31,19 +30,23 @@ class App extends React.Component {
             this.state.default === false ||
             this.state.operators.array.length > 0
         ) {
-            BUTTON_PROPERTIES_ARRAY[0].setValue('C');
+            BUTTON_PROPERTIES_ARRAY[0].value = 'C';
         } else {
-            BUTTON_PROPERTIES_ARRAY[0].setValue('AC');
+            BUTTON_PROPERTIES_ARRAY[0].value = 'AC';
         }
         return (
             <>
                 <Display
                     value={this.state.result[this.state.result.length - 1]}
                 />
-                <div className="buttons-area">
+                <div
+                    className="buttons-area"
+                    style={{ width: '240px', height: '250px' }}
+                >
                     {BUTTON_PROPERTIES_ARRAY.map((properties, index) => (
                         <Button
                             key={properties.value}
+                            value={properties.value}
                             properties={properties}
                             updateState={this.updateState}
                         />
