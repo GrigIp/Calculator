@@ -25,15 +25,23 @@ class App extends React.Component {
         this.setState({ ...updateResult(value, this.state) });
     }
 
-    render() {
-        if (
-            this.state.default === false ||
-            this.state.operators.array.length > 0
-        ) {
-            BUTTON_PROPERTIES_ARRAY[0].value = 'C';
-        } else {
-            BUTTON_PROPERTIES_ARRAY[0].value = 'AC';
+    getButtonProperties(properties, index) {
+        let newProperties = { ...BUTTON_PROPERTIES_ARRAY[index] };
+        if (index === 0) {
+            if (
+                this.state.default === false ||
+                this.state.operators.array.length > 0
+            ) {
+                newProperties.value = 'C';
+            } else {
+                newProperties.value = 'AC';
+            }
         }
+
+        return newProperties;
+    }
+
+    render() {
         return (
             <>
                 <Display
@@ -43,14 +51,20 @@ class App extends React.Component {
                     className="buttons-area"
                     style={{ width: '240px', height: '250px' }}
                 >
-                    {BUTTON_PROPERTIES_ARRAY.map((properties, index) => (
-                        <Button
-                            key={properties.value}
-                            value={properties.value}
-                            properties={properties}
-                            updateState={this.updateState}
-                        />
-                    ))}
+                    {BUTTON_PROPERTIES_ARRAY.map((properties, index) => {
+                        let buttonProperties = this.getButtonProperties(
+                            properties,
+                            index
+                        );
+                        return (
+                            <Button
+                                key={buttonProperties.value}
+                                value={buttonProperties.value}
+                                properties={buttonProperties}
+                                updateState={this.updateState}
+                            />
+                        );
+                    })}
                 </div>
             </>
         );

@@ -14,16 +14,24 @@ const properties = {
 };
 
 class Button extends React.Component {
-    setStyle(properties) {
+    value = 'Button';
+    onClick;
+
+    setProperties(properties) {
         const newProperties = { ...properties };
+
         newProperties.backgroundColor =
             this.props.properties.colors === undefined
                 ? '#D4D4D2'
                 : this.props.properties.colors;
+
         newProperties.width =
             this.props.properties.width === undefined
                 ? '60px'
                 : this.props.properties.width;
+
+        this.value = this.props.properties.value;
+        this.onClick = this.props.updateState;
 
         return newProperties;
     }
@@ -32,15 +40,15 @@ class Button extends React.Component {
         return (
             <button
                 className="button"
-                style={this.setStyle(properties)}
-                onClick={() =>
-                    this.props.updateState(this.props.properties.value)
-                }
+                style={this.setProperties(properties)}
+                onClick={() => this.onClick(this.value)}
             >
-                {this.props.properties.value}
+                {this.value}
             </button>
         );
     }
 }
+
 const StyledButton = Radium(Button);
+
 export default StyledButton;
