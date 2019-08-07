@@ -1,56 +1,45 @@
 export const BUTTON_PROPERTIES_ARRAY = [
     {
         value: 'AC',
-        colors: '#505050',
+        colors: 'dark gray',
     },
-
     {
         value: '+/-',
-        colors: '#505050',
+        colors: 'dark gray',
     },
-
     {
         value: '%',
-        colors: '#505050',
+        colors: 'dark gray',
     },
-
     {
         value: '÷',
-        colors: '#FF9500',
+        colors: 'orange',
     },
-
     { value: '7' },
     { value: '8' },
     { value: '9' },
-
     {
         value: 'x',
-        colors: '#FF9500',
+        colors: 'orange',
     },
-
     { value: '4' },
     { value: '5' },
     { value: '6' },
-
     {
         value: '-',
-        colors: '#FF9500',
+        colors: 'orange',
     },
-
     { value: '1' },
     { value: '2' },
     { value: '3' },
-
     {
         value: '+',
-        colors: '#FF9500',
+        colors: 'orange',
     },
-
-    { value: '0', width: '120px' },
+    { value: '0', width: 'wide' },
     { value: '.' },
-
     {
         value: '=',
-        colors: '#FF9500',
+        colors: 'orange',
     },
 ];

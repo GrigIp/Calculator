@@ -5,6 +5,7 @@ import Button from './button';
 import Display from './display';
 import { BUTTON_PROPERTIES_ARRAY } from './constants';
 import { updateResult } from './pressButtonLogic';
+import './calculatorStyle.css';
 
 class App extends React.Component {
     constructor(props) {
@@ -25,7 +26,7 @@ class App extends React.Component {
         this.setState({ ...updateResult(value, this.state) });
     }
 
-    getButtonProperties(properties, index) {
+    getButtonStyle(properties, index) {
         let newProperties = { ...BUTTON_PROPERTIES_ARRAY[index] };
         if (index === 0) {
             if (
@@ -47,20 +48,19 @@ class App extends React.Component {
                 <Display
                     value={this.state.result[this.state.result.length - 1]}
                 />
-                <div
-                    className="buttons-area"
-                    style={{ width: '240px', height: '250px' }}
-                >
+                <div className="buttons-area">
                     {BUTTON_PROPERTIES_ARRAY.map((properties, index) => {
-                        let buttonProperties = this.getButtonProperties(
+                        let buttonProperties = this.getButtonStyle(
                             properties,
                             index
                         );
+
                         return (
                             <Button
                                 key={buttonProperties.value}
                                 value={buttonProperties.value}
-                                properties={buttonProperties}
+                                color={buttonProperties.colors}
+                                width={buttonProperties.width}
                                 updateState={this.updateState}
                             />
                         );

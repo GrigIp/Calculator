@@ -1,54 +1,40 @@
 import React from 'react';
-import Radium from 'radium';
-
-const properties = {
-    backgroundColor: '#D4D4D2',
-    height: '50px',
-    width: '60px',
-    borderStyle: 'solid',
-    borderColor: 'black',
-    fontSize: '20px',
-    ':focus': {
-        outline: 'none',
-    },
-};
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import './calculatorStyle.css';
 
 class Button extends React.Component {
-    value = 'Button';
-    onClick;
-
-    setProperties(properties) {
-        const newProperties = { ...properties };
-
-        newProperties.backgroundColor =
-            this.props.properties.colors === undefined
-                ? '#D4D4D2'
-                : this.props.properties.colors;
-
-        newProperties.width =
-            this.props.properties.width === undefined
-                ? '60px'
-                : this.props.properties.width;
-
-        this.value = this.props.properties.value;
-        this.onClick = this.props.updateState;
-
-        return newProperties;
-    }
-
     render() {
+        const {
+            value = 'Button',
+            color = 'light gray',
+            width = 'narrow',
+            updateState,
+        } = {
+            ...this.props,
+        };
+        const classes = classNames({
+            'button-style': true,
+            lg: color === 'light gray',
+            dg: color === 'dark gray',
+            og: color === 'orange',
+            nrw: width === 'narrow',
+            wd: width === 'wide',
+        });
+
         return (
-            <button
-                className="button"
-                style={this.setProperties(properties)}
-                onClick={() => this.onClick(this.value)}
-            >
-                {this.value}
+            <button className={classes} onClick={() => updateState(value)}>
+                {value}
             </button>
         );
     }
 }
 
-const StyledButton = Radium(Button);
+Button.propTypes = {
+    value: PropTypes.string.isRequired,
+    color: PropTypes.oneOf(['dark gray', 'orange']),
+    width: PropTypes.string,
+    updateState: PropTypes.func.isRequired,
+};
 
-export default StyledButton;
+export default Button;

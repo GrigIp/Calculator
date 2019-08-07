@@ -1,0 +1,45 @@
+.display {
+    width: 240px;
+    height: 100px;
+    background-color: #1c1c1c;
+    color: white;
+    font-size: 50px;
+    text-align: right;
+    line-height: 110px;
+}
+
+.buttons-area {
+    width: 240px;
+    height: 250px;
+}
+
+.button-style {
+    height: 50px;
+    border-style: solid;
+    border-color: black;
+    font-size: 20px;
+}
+
+.button-style:focus {
+    outline: none;
+}
+
+.lg {
+    background-color: #d4d4d2;
+}
+
+.dg {
+    background-color: #505050;
+}
+
+.og {
+    background-color: #ff9500;
+}
+
+.nrw {
+    width: 60px;
+}
+
+.wd {
+    width: 120px;
+}
