@@ -59,7 +59,7 @@ class App extends React.Component {
                             <Button
                                 key={buttonProperties.value}
                                 value={buttonProperties.value}
-                                color={buttonProperties.colors}
+                                color={buttonProperties.color}
                                 width={buttonProperties.width}
                                 updateState={this.updateState}
                             />

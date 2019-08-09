@@ -24,22 +24,22 @@
     outline: none;
 }
 
-.lg {
+.light-gray {
     background-color: #d4d4d2;
 }
 
-.dg {
+.dark-gray {
     background-color: #505050;
 }
 
-.og {
+.orange {
     background-color: #ff9500;
 }
 
-.nrw {
+.narrow {
     width: 60px;
 }
 
-.wd {
+.wide {
     width: 120px;
 }

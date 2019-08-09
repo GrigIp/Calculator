@@ -5,21 +5,16 @@ import './calculatorStyle.css';
 
 class Button extends React.Component {
     render() {
-        const {
-            value = 'Button',
-            color = 'light gray',
-            width = 'narrow',
-            updateState,
-        } = {
+        const { value, color = 'light-gray', width = 'narrow', updateState } = {
             ...this.props,
         };
         const classes = classNames({
             'button-style': true,
-            lg: color === 'light gray',
-            dg: color === 'dark gray',
-            og: color === 'orange',
-            nrw: width === 'narrow',
-            wd: width === 'wide',
+            'light-gray': color === 'light-gray',
+            'dark-gray': color === 'dark-gray',
+            orange: color === 'orange',
+            narrow: width === 'narrow',
+            wide: width === 'wide',
         });
 
         return (
@@ -31,9 +26,30 @@ class Button extends React.Component {
 }
 
 Button.propTypes = {
-    value: PropTypes.string.isRequired,
-    color: PropTypes.oneOf(['dark gray', 'orange']),
-    width: PropTypes.string,
+    value: PropTypes.oneOf([
+        'AC',
+        'C',
+        '+/-',
+        '%',
+        '÷',
+        '7',
+        '8',
+        '9',
+        'x',
+        '4',
+        '5',
+        '6',
+        '-',
+        '1',
+        '2',
+        '3',
+        '+',
+        '0',
+        '.',
+        '=',
+    ]).isRequired,
+    color: PropTypes.oneOf(['dark-gray', 'orange', 'light-gray']),
+    width: PropTypes.oneOf(['narrow', 'wide']),
     updateState: PropTypes.func.isRequired,
 };
 
