@@ -1,37 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as appActions from './redux/actions';
 import logo from './logo.svg';
 import './App.css';
 import Button from './button';
 import Display from './display';
 import { BUTTON_PROPERTIES_ARRAY } from './constants';
-import { updateResult } from './pressButtonLogic';
 import './calculatorStyle.css';
+import { Provider } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            result: ['0'],
-            operators: {
-                array: [],
-                redundant: 0,
-            },
-            default: true,
-            point: false,
-        };
-        this.updateState = this.updateState.bind(this);
+        this.handleUpdateState = this.handleUpdateState.bind(this);
     }
 
-    updateState(value) {
-        this.setState({ ...updateResult(value, this.state) });
+    handleUpdateState(value) {
+        this.props.actions.getType(value);
     }
 
     getButtonStyle(properties, index) {
         let newProperties = { ...BUTTON_PROPERTIES_ARRAY[index] };
         if (index === 0) {
             if (
-                this.state.default === false ||
-                this.state.operators.array.length > 0
+                this.props.state.default === false ||
+                this.props.state.operators.array.length > 0
             ) {
                 newProperties.value = 'C';
             } else {
@@ -46,7 +41,11 @@ class App extends React.Component {
         return (
             <>
                 <Display
-                    value={this.state.result[this.state.result.length - 1]}
+                    value={
+                        this.props.state.result[
+                            this.props.state.result.length - 1
+                        ]
+                    }
                 />
                 <div className="buttons-area">
                     {BUTTON_PROPERTIES_ARRAY.map((properties, index) => {
@@ -61,7 +60,7 @@ class App extends React.Component {
                                 value={buttonProperties.value}
                                 color={buttonProperties.color}
                                 width={buttonProperties.width}
-                                updateState={this.updateState}
+                                updateState={this.handleUpdateState}
                             />
                         );
                     })}
@@ -70,4 +69,25 @@ class App extends React.Component {
         );
     }
 }
-export default App;
+
+App.propTypes = {
+    state: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
+};
+
+function mapStateToProps(state) {
+    return {
+        state,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(appActions, dispatch),
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
