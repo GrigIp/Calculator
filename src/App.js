@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as appActions from './redux/actions';
+import pressButton from './redux/actions';
 import logo from './logo.svg';
 import './App.css';
 import Button from './button';
@@ -12,26 +12,20 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleUpdateState = this.handleUpdateState.bind(this);
-    }
-
     handleUpdateState(value) {
-        this.props.actions.getType(value);
+        this.props.pressButton(value);
     }
 
     getButtonStyle(properties, index) {
+        const { defaultValue, operators } = { ...this.props };
         let newProperties = { ...BUTTON_PROPERTIES_ARRAY[index] };
-        if (index === 0) {
-            if (
-                this.props.state.default === false ||
-                this.props.state.operators.array.length > 0
-            ) {
-                newProperties.value = 'C';
-            } else {
-                newProperties.value = 'AC';
-            }
+        if (index !== 0) {
+            return newProperties;
+        }
+        if (defaultValue === false || operators.length > 0) {
+            newProperties.value = 'C';
+        } else {
+            newProperties.value = 'AC';
         }
 
         return newProperties;
@@ -41,11 +35,7 @@ class App extends React.Component {
         return (
             <>
                 <Display
-                    value={
-                        this.props.state.result[
-                            this.props.state.result.length - 1
-                        ]
-                    }
+                    value={this.props.result[this.props.result.length - 1]}
                 />
                 <div className="buttons-area">
                     {BUTTON_PROPERTIES_ARRAY.map((properties, index) => {
@@ -60,7 +50,9 @@ class App extends React.Component {
                                 value={buttonProperties.value}
                                 color={buttonProperties.color}
                                 width={buttonProperties.width}
-                                updateState={this.handleUpdateState}
+                                updateState={(...params) =>
+                                    this.handleUpdateState(...params)
+                                }
                             />
                         );
                     })}
@@ -71,19 +63,23 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-    state: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
+    result: PropTypes.array.isRequired,
+    operators: PropTypes.array.isRequired,
+    redundant: PropTypes.number.isRequired,
+    pressButton: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        state,
+        result: state.result,
+        operators: state.operators,
+        redundant: state.redundant,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(appActions, dispatch),
+        pressButton: bindActionCreators(pressButton, dispatch),
     };
 }
 
