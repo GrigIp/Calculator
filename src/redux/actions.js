@@ -1,10 +1,8 @@
 import * as types from './actionTypes';
-import { isDisplayable } from '../pressButtonLogic';
 
-export default function pressButton(value) {
+export const pressButton = value => {
     return {
         type: types.PRESS_BUTTON,
-        value: value,
-        displayable: isDisplayable(value),
+        value,
     };
-}
+};

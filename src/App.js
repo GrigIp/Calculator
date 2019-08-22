@@ -1,15 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import pressButton from './redux/actions';
-import logo from './logo.svg';
-import './App.css';
-import Button from './button';
-import Display from './display';
-import { BUTTON_PROPERTIES_ARRAY } from './constants';
-import './calculatorStyle.css';
-import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import React from 'react';
+
+import './calculatorStyle.css';
+import Button from './button';
+import { BUTTON_PROPERTIES_ARRAY } from './constants';
+import Display from './display';
+import { pressButton } from './redux/actions';
 
 class App extends React.Component {
     handleUpdateState(value) {
@@ -19,6 +17,7 @@ class App extends React.Component {
     getButtonStyle(properties, index) {
         const { defaultValue, operators } = { ...this.props };
         let newProperties = { ...BUTTON_PROPERTIES_ARRAY[index] };
+
         if (index !== 0) {
             return newProperties;
         }
@@ -32,11 +31,12 @@ class App extends React.Component {
     }
 
     render() {
+        const { result } = { ...this.props };
+        const displayingValue = result[result.length - 1];
+
         return (
             <>
-                <Display
-                    value={this.props.result[this.props.result.length - 1]}
-                />
+                <Display value={displayingValue} />
                 <div className="buttons-area">
                     {BUTTON_PROPERTIES_ARRAY.map((properties, index) => {
                         let buttonProperties = this.getButtonStyle(

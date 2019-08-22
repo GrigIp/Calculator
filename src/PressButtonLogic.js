@@ -174,7 +174,7 @@ export const specialKeys = (value, state) => {
             return handleArrays(value, state);
     }
 };
-export const isDisplayable = value => {
+export const isNumber = value => {
     return (
         value === '1' ||
         value === '2' ||
@@ -188,4 +188,10 @@ export const isDisplayable = value => {
         value === '0' ||
         value === '.'
     );
+};
+
+export const processPressButton = (value, state) => {
+    return isNumber(value) === true
+        ? createNewDisplayingState(value, state)
+        : specialKeys(value, state);
 };

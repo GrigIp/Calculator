@@ -1,23 +1,20 @@
-import * as buttonLogic from '../pressButtonLogic';
 import * as actions from './actionTypes';
-export default function appReducer(
+import { processPressButton } from '../pressButtonLogic';
+
+export const appReducer = (
     state = {
         result: ['0'],
         operators: [],
         redundant: 0,
     },
     action
-) {
-    const { type, value, displayable } = { ...action };
+) => {
+    const { type, value } = { ...action };
+
     switch (type) {
         case actions.PRESS_BUTTON:
-            if (displayable) {
-                return buttonLogic.createNewDisplayingState(value, state);
-            } else {
-                return buttonLogic.specialKeys(value, state);
-            }
-            break;
+            return processPressButton(value, state);
         default:
             return state;
     }
-}
+};
