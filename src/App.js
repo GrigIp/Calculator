@@ -1,53 +1,42 @@
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Button from './button';
-import Display from './display';
-import { BUTTON_PROPERTIES_ARRAY } from './constants';
-import { updateResult } from './pressButtonLogic';
+
 import './calculatorStyle.css';
+import Button from './button';
+import { BUTTON_PROPERTIES_ARRAY } from './constants';
+import Display from './display';
+import { pressButton } from './redux/actions';
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            result: ['0'],
-            operators: {
-                array: [],
-                redundant: 0,
-            },
-            default: true,
-            point: false,
-        };
-        this.updateState = this.updateState.bind(this);
-    }
-
-    updateState(value) {
-        this.setState({ ...updateResult(value, this.state) });
+    handleUpdateState(value) {
+        this.props.pressButton(value);
     }
 
     getButtonStyle(properties, index) {
+        const { defaultValue, operators } = { ...this.props };
         let newProperties = { ...BUTTON_PROPERTIES_ARRAY[index] };
-        if (index === 0) {
-            if (
-                this.state.default === false ||
-                this.state.operators.array.length > 0
-            ) {
-                newProperties.value = 'C';
-            } else {
-                newProperties.value = 'AC';
-            }
+
+        if (index !== 0) {
+            return newProperties;
+        }
+        if (defaultValue === false || operators.length > 0) {
+            newProperties.value = 'C';
+        } else {
+            newProperties.value = 'AC';
         }
 
         return newProperties;
     }
 
     render() {
+        const { result } = { ...this.props };
+        const displayingValue = result[result.length - 1];
+
         return (
             <>
-                <Display
-                    value={this.state.result[this.state.result.length - 1]}
-                />
+                <Display value={displayingValue} />
                 <div className="buttons-area">
                     {BUTTON_PROPERTIES_ARRAY.map((properties, index) => {
                         let buttonProperties = this.getButtonStyle(
@@ -61,7 +50,9 @@ class App extends React.Component {
                                 value={buttonProperties.value}
                                 color={buttonProperties.color}
                                 width={buttonProperties.width}
-                                updateState={this.updateState}
+                                updateState={(...params) =>
+                                    this.handleUpdateState(...params)
+                                }
                             />
                         );
                     })}
@@ -70,4 +61,29 @@ class App extends React.Component {
         );
     }
 }
-export default App;
+
+App.propTypes = {
+    result: PropTypes.array.isRequired,
+    operators: PropTypes.array.isRequired,
+    redundant: PropTypes.number.isRequired,
+    pressButton: PropTypes.func.isRequired,
+};
+
+function mapStateToProps(state) {
+    return {
+        result: state.result,
+        operators: state.operators,
+        redundant: state.redundant,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        pressButton: bindActionCreators(pressButton, dispatch),
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);

@@ -1,19 +1,33 @@
 const canConcat = (value, state) => {
-    if (state.result[state.result.length - 1] === '0' && value !== '.') {
+    if (state.result.length === state.operators.length) {
         return false;
     }
 
-    return state.default !== true || (state.state === true && value === '.');
+    return true;
+};
+
+const trimZero = state => {
+    const lastElemIndex = state.result.length - 1;
+    if (
+        state.result[lastElemIndex].startsWith('0') &&
+        !state.result[lastElemIndex].startsWith('0.')
+    ) {
+        state.result[lastElemIndex] = state.result[lastElemIndex].slice(-1);
+    }
+
+    return state;
 };
 
 const handleArrays = (value, state) => {
-    const saveResultArray = state.result;
-    saveResultArray.push(saveResultArray[saveResultArray.length - 1]);
-    state.result = saveResultArray;
-    state.operators.array.push(value);
-    state.default = true;
+    let newState = JSON.parse(JSON.stringify(state));
+    newState.operators.push(value);
 
-    return state;
+    let difference = newState.operators.length - newState.result.length;
+    if (difference > 0) {
+        newState.operators.splice(0, difference);
+    }
+
+    return newState;
 };
 
 const calculatePartialResult = (firstOperand, secondOperand, operator) => {
@@ -41,17 +55,17 @@ const calculatePartialResult = (firstOperand, secondOperand, operator) => {
 
 const solveOrderOfPrecedence = state => {
     if (
-        state.operators.array.length === state.result.length &&
-        state.operators.array.length > 1
+        state.operators.length === state.result.length &&
+        state.operators.length > 1
     ) {
-        state.operators.array.splice(0, 1);
+        state.operators.splice(0, 1);
     }
 
-    for (let i = 0; i < state.operators.array.length - 1; i++) {
-        let val = state.operators.array[i];
+    for (let i = 0; i < state.operators.length - 1; i++) {
+        let val = state.operators[i];
         if (val === 'x' || val === '÷') {
             let result = state.result[i];
-            state.operators.array.splice(i, 1);
+            state.operators.splice(i, 1);
             if (val === 'x') {
                 state.result[i + 1] *= result;
             } else {
@@ -66,102 +80,88 @@ const solveOrderOfPrecedence = state => {
 };
 
 const calculateResult = state => {
-    state = solveOrderOfPrecedence(state);
+    let newState = JSON.parse(JSON.stringify(state));
+    newState = solveOrderOfPrecedence(newState);
 
-    const lastElemResultArray = state.result.length - 1;
-    let lastElemOperatorsArray = state.operators.array.length - 1;
-    let finalResult = Number(state.result[0]);
+    const lastElemResultArray = newState.result.length - 1;
+    let lastElemOperatorsArray = newState.operators.length - 1;
+    let finalResult = Number(newState.result[0]);
 
     if (lastElemResultArray + 1 > 1) {
-        if (state.operators.array.length === lastElemResultArray + 1) {
-            state.operators.array.splice(0, 1);
-            lastElemOperatorsArray = state.operators.array.length - 1;
+        if (newState.operators.length === lastElemResultArray + 1) {
+            newState.operators.splice(0, 1);
+            lastElemOperatorsArray = newState.operators.length - 1;
         }
 
         for (let i = 0; i <= lastElemOperatorsArray; i++) {
             finalResult = calculatePartialResult(
                 finalResult,
-                Number(state.result[i + 1]),
-                state.operators.array[i]
+                Number(newState.result[i + 1]),
+                newState.operators[i]
             );
         }
 
-        state.operators.array = [state.operators.array[lastElemOperatorsArray]];
-        state.operators.redundant = Number(state.result[lastElemResultArray]);
+        newState.operators = [newState.operators[lastElemOperatorsArray]];
+        newState.redundant = Number(newState.result[lastElemResultArray]);
     } else {
-        finalResult = Number(state.result[0]);
+        finalResult = Number(newState.result[0]);
         finalResult = calculatePartialResult(
             finalResult,
-            state.operators.redundant,
-            state.operators.array[lastElemOperatorsArray]
+            newState.redundant,
+            newState.operators[lastElemOperatorsArray]
         );
     }
 
-    state.default = true;
-    state.result = [finalResult.toString()];
+    newState.result = [finalResult.toString()];
 
-    return state;
+    return newState;
 };
 
-const createNewDisplayingState = (newResult, newDefaultValue, state) => {
-    if (newResult === '.' && state.point) {
-        return state;
-    }
-    if (newResult === '.') {
-        state.point = true;
+export const createNewDisplayingState = (newResult, state) => {
+    let newState = JSON.parse(JSON.stringify(state));
+    let nowDisplaying = newState.result[newState.result.length - 1];
+
+    if (nowDisplaying.includes('.') && newResult === '.') {
+        return newState;
     }
 
-    const saveResultArray = state.result;
+    const saveResultArray = newState.result;
     const lastElem = saveResultArray.length - 1;
 
-    if (newDefaultValue === true) {
-        return {
-            result: ['0'],
-            operators: {
-                array: [],
-                redundant: 0,
-            },
-            default: newDefaultValue,
-            point: false,
-        };
-    } else if (canConcat(newResult, state)) {
+    if (canConcat(newResult, newState)) {
         saveResultArray[lastElem] = saveResultArray[lastElem].concat(newResult);
+        newState.result = saveResultArray;
 
-        return {
-            result: saveResultArray,
-            default: newDefaultValue,
-            point: state.point,
-        };
+        newState = trimZero(newState);
+
+        return newState;
     } else {
-        saveResultArray[lastElem] = newResult;
-        state.point = false;
+        saveResultArray.push(newResult);
+        newState.result = saveResultArray;
 
-        return {
-            result: saveResultArray,
-            default: newDefaultValue,
-            point: state.point,
-        };
+        return newState;
     }
 };
 
 const constMultiplyer = (multiplyer, state) => {
-    let lastElem = state.result.length - 1;
-    let stateResult = Number(state.result[lastElem]);
+    let newState = JSON.parse(JSON.stringify(state));
+    let lastElem = newState.result.length - 1;
+    let stateResult = Number(newState.result[lastElem]);
 
     stateResult *= multiplyer;
-    state.result[lastElem] = stateResult.toString();
+    newState.result[lastElem] = stateResult.toString();
 
-    return {
-        result: state.result,
-        default: state.default,
-        point: state.point,
-    };
+    return newState;
 };
 
-const specialKeys = (value, state) => {
+export const specialKeys = (value, state) => {
     switch (value) {
         case 'C':
-            return createNewDisplayingState('0', true, state);
+            return {
+                result: ['0'],
+                operators: [],
+                redundant: 0,
+            };
         case '+/-':
             return constMultiplyer(-1, state);
         case '%':
@@ -174,7 +174,7 @@ const specialKeys = (value, state) => {
             return handleArrays(value, state);
     }
 };
-const isDisplayable = value => {
+export const isNumber = value => {
     return (
         value === '1' ||
         value === '2' ||
@@ -190,10 +190,8 @@ const isDisplayable = value => {
     );
 };
 
-export const updateResult = (value, state) => {
-    if (isDisplayable(value)) {
-        return createNewDisplayingState(value, false, state);
-    }
-
-    return specialKeys(value, state);
+export const processPressButton = (value, state) => {
+    return isNumber(value) === true
+        ? createNewDisplayingState(value, state)
+        : specialKeys(value, state);
 };
